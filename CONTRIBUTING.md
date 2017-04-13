@@ -44,6 +44,52 @@ Example: `http://localhost:9876/base/test/web-platform-tests/web-animations/anim
 
 ## Publishing a release
 
+### 1. Ensure your local git checkout is in a known state.
+
+    Some assumptions are made in these instructions, it's important that you
+    adapt these assumptions to your local checkout or follow these instructions
+    to put it in a known state.
+
+    1. Check that your origin remote is pointing to the right URL for these instructions.
+
+        ```sh
+            git remote get-url origin
+        ```
+
+        This must return `git@github.com:web-animations/web-animations-js.git`, if it does not you can correct it with:
+
+        ```sh
+            git remote set-url origin git@github.com:web-animations/web-animations-js.git
+        ```
+
+
+    1.  Ensure your local git checkout is up to date.
+
+        ```sh
+            git fetch origin
+        ```
+
+    1. Remove local branches that get used in these instructions
+
+        ```sh
+            git branch -d dev master
+        ```
+
+        These branches may cause problems if they exist locally and are out of date.
+
+1.  Determine the changes made since last release
+
+    Add an entry to 
+
+        ### ?.?.? — *November 1, 2001*
+
+          * Fixed a bug where nothing worked
+
+    Use the following to generate a summary of commits, but edit the list to contain only
+    relevant information.
+
+        git log --first-parent `git describe --tags --abbrev=0 master`..dev --pretty=format:"  * %s"
+
 1.  Determine the version number for the release
 
     * Increment the first number and reset others to 0 when there are large breaking changes
@@ -90,7 +136,7 @@ Example: `http://localhost:9876/base/test/web-platform-tests/web-animations/anim
     ```
 
 1.  Draft a [new release](https://github.com/web-animations/web-animations-js/releases) at the
-    commit pushed to web-animations-js in step #4. Copy the release notes from `History.md`
+    commit pushed to web-animations-js in step #6. Copy the release notes from `History.md`
     added in step #2.
 
 1. Once you've pushed to web-animations-js, run `npm publish` from that checked-out folder
